@@ -1,0 +1,42 @@
+{
+    "isim3": {
+        "date": "2026-01-14 02:45:42",
+        "indices": {
+            "NDVI": "0.59",
+            "EVI": "0.42",
+            "SAVI": "0.39",
+            "NDRE": "0.43",
+            "RENDVI": "0.35",
+            "GNDVI": "0.58",
+            "NDWI": "0.23"
+        },
+        "classification": {
+            "Anız / Sürülmüş Toprak": 2.108800338678097,
+            "Meyve Bahçesi / Çalı": 62.99148012912104,
+            "Çim / Yeşil Alan": 34.899719532200876
+        },
+        "stage": "🌱 Erken Dönem / Yavaş Gelişim",
+        "health_score": "98.7"
+    },
+    "isim4": {
+        "date": "2026-01-14 02:59:06",
+        "indices": {
+            "NDVI": "0.58",
+            "EVI": "0.44",
+            "SAVI": "0.41",
+            "NDRE": "0.39",
+            "RENDVI": "0.31",
+            "GNDVI": "0.57",
+            "NDWI": "0.14"
+        },
+        "classification": {
+            "Yol / Yapı / Taşlık": 1.4971717009696357,
+            "Yoğun Orman": 0.9718100816756149,
+            "Anız / Sürülmüş Toprak": 14.511802814140246,
+            "Meyve Bahçesi / Çalı": 23.78385121949052,
+            "Çim / Yeşil Alan": 58.78089568908405
+        },
+        "stage": "🚀 Hızlı Gelişim (Aktif)",
+        "health_score": "58.2"
+    }
+}
