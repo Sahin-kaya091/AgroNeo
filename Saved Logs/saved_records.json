@@ -38,5 +38,42 @@
         },
         "stage": "🚀 Hızlı Gelişim (Aktif)",
         "health_score": "58.2"
+    },
+    "Alan3": {
+        "date": "2026-01-28 22:18:53",
+        "indices": {
+            "NDVI": "0.79",
+            "EVI": "0.51",
+            "SAVI": "0.48",
+            "NDRE": "0.54",
+            "RENDVI": "0.46",
+            "GNDVI": "0.71",
+            "NDWI": "0.29"
+        },
+        "classification": {
+            "Dense Forest": 36.67009168510907,
+            "Orchard / Shrub / Nursery": 63.32990831489092
+        },
+        "stage": "Maturity / Peak Period",
+        "health_score": "78.0"
+    },
+    "Alan6": {
+        "date": "2026-01-28 23:49:03",
+        "indices": {
+            "NDVI": "0.50",
+            "EVI": "0.50",
+            "SAVI": "0.41",
+            "NDRE": "0.35",
+            "RENDVI": "0.27",
+            "GNDVI": "0.50",
+            "NDWI": "0.18"
+        },
+        "classification": {
+            "Wheat (Late Grain)": 19.33848537024644,
+            "Cotton": 16.36214012360955,
+            "Grass / Green Area": 64.299374506144
+        },
+        "stage": "Harvest / Maturation",
+        "health_score": "69.8"
     }
 }

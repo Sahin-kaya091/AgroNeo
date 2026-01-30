@@ -17,7 +17,7 @@ from datetime import datetime
 
 # Files from your existing project
 from worker import AnalysisWorker
-from dialogs import RecordsDialog, ComparisonSelectionDialog
+from dialogs import RecordsDialog, ComparisonSelectionDialog, DateSelectionDialog, InfoDialog
 
 
 class NeoAgroApp(QMainWindow):
@@ -33,11 +33,32 @@ class NeoAgroApp(QMainWindow):
         self.index_labels = {}
 
         # --- DATA MANAGEMENT ---
+        # self.current_analysis_memory = {}
+        # base_dir = os.path.dirname(os.path.abspath(__file__))
+        # logs_folder = os.path.join(base_dir, "Saved Logs")
+        # if not os.path.exists(logs_folder):
+        #     os.makedirs(logs_folder)
+        # self.saved_records_file = os.path.join(logs_folder, "saved_records.json")
+        # self.load_records()
+
+        # --- DATA MANAGEMENT ---
         self.current_analysis_memory = {}
-        base_dir = os.path.dirname(os.path.abspath(__file__))
+
+        # --- DÜZELTME BAŞLANGICI ---
+        # Eğer program EXE ise (sys.frozen), exe'nin olduğu klasörü al.
+        # Değilse normal dosya yolunu al.
+        if getattr(sys, 'frozen', False):
+            base_dir = os.path.dirname(sys.executable)
+        else:
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+        # --- DÜZELTME BİTİŞİ ---
+
         logs_folder = os.path.join(base_dir, "Saved Logs")
+
+        # Klasör yoksa oluştur
         if not os.path.exists(logs_folder):
             os.makedirs(logs_folder)
+
         self.saved_records_file = os.path.join(logs_folder, "saved_records.json")
         self.load_records()
 
@@ -60,6 +81,17 @@ class NeoAgroApp(QMainWindow):
         self.current_start_date = "2023-06-01"
         self.current_end_date = "2023-09-30"
         self.analysis_mode = "range"
+
+        # Index Descriptions
+        self.index_descriptions = {
+            "NDVI": "NDVI (Normalized Difference Vegetation Index)\n\nMeasures the density and greenness of vegetation. High values (close to 1) indicate healthy, dense vegetation, while low values indicate stressed vegetation or bare soil.",
+            "EVI": "EVI (Enhanced Vegetation Index)\n\nSimilar to NDVI but corrects for atmospheric signals and soil background. It is more sensitive in areas with dense vegetation.",
+            "SAVI": "SAVI (Soil Adjusted Vegetation Index)\n\nAdjusts for soil brightness in areas where vegetative cover is low. Useful for early growth stages.",
+            "NDRE": "NDRE (Normalized Difference Red Edge)\n\nUses the Red Edge band to estimate chlorophyll content. It is more sensitive than NDVI for crops in later growth stages.",
+            "RENDVI": "RENDVI (Red Edge NDVI)\n\nA variation of NDVI that uses the Red Edge band. It is useful for assessing plant health in dense canopies.",
+            "GNDVI": "GNDVI (Green NDVI)\n\nUses the Green band instead of the Red band. It is more sensitive to chlorophyll concentration than NDVI.",
+            "NDWI": "NDWI (Normalized Difference Water Index)\n\nMeasures water content in vegetation and soil. High values indicate high water content."
+        }
 
         self.create_map_html(self.current_start_date, self.current_end_date, mode="range")
         file_path = os.path.abspath("temp_map.html")
@@ -447,10 +479,40 @@ class NeoAgroApp(QMainWindow):
         lay.setAlignment(Qt.AlignCenter)
         frame.setLayout(lay)
 
+        # Title Layout (Horizontal for Label + Info Button)
+        title_layout = QHBoxLayout()
+        title_layout.setAlignment(Qt.AlignCenter)
+        
         lbl_title = QLabel(title)
         lbl_title.setFont(QFont("Segoe UI", 16))
         lbl_title.setStyleSheet("color: #777; border: none; background: transparent;")
         lbl_title.setAlignment(Qt.AlignCenter)
+        title_layout.addWidget(lbl_title)
+
+        # Add Info Button if description exists
+        if title in self.index_descriptions:
+            btn_info = QPushButton("i")
+            btn_info.setCursor(Qt.PointingHandCursor)
+            btn_info.setFixedSize(20, 20)
+            btn_info.setStyleSheet("""
+                QPushButton {
+                    background-color: #e0e0e0;
+                    color: #555;
+                    border-radius: 10px;
+                    font-weight: bold;
+                    border: none;
+                    font-size: 12px;
+                }
+                QPushButton:hover {
+                    background-color: #bdbdbd;
+                    color: #333;
+                }
+            """)
+            btn_info.clicked.connect(lambda checked, t=title: self.show_index_info(t))
+            title_layout.addWidget(btn_info)
+            # Add a bit of spacing/centering logic if needed, but HBox handles it well.
+        
+        lay.addLayout(title_layout)
 
         lbl_val = QLabel("---")
         size = 48 if is_large else 38
@@ -458,9 +520,13 @@ class NeoAgroApp(QMainWindow):
         lbl_val.setStyleSheet(f"color: {color_hex}; border: none; background: transparent;")
         lbl_val.setAlignment(Qt.AlignCenter)
 
-        lay.addWidget(lbl_title)
         lay.addWidget(lbl_val)
         return frame, lbl_val
+
+    def show_index_info(self, title):
+        info_text = self.index_descriptions.get(title, "No information available.")
+        dlg = InfoDialog(title, info_text, self)
+        dlg.exec_()
 
     def cycle_results_view(self):
         current = self.stack.currentIndex()
@@ -611,7 +677,9 @@ class NeoAgroApp(QMainWindow):
             except Exception as e:
                 self.lbl_status.setText(f"⚠️ Error: {str(e)}")
 
-    def fetch_data(self, geo_data):
+                self.lbl_status.setText(f"⚠️ Error: {str(e)}")
+ 
+    def fetch_data(self, geo_data, specific_date=None):
         self.lbl_status.setText("⏳ Analysis Started...")
         bands = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B11']
         d1 = self.date_start.date().toString("yyyy-MM-dd")
@@ -619,12 +687,27 @@ class NeoAgroApp(QMainWindow):
 
         self.current_analysis_memory = {"indices": {}, "classification": {}, "stage": "Unknown", "health_score": "0"}
 
-        self.worker = AnalysisWorker(geo_data, bands, self.analysis_mode, d1, d2)
+        self.worker = AnalysisWorker(geo_data, bands, self.analysis_mode, d1, d2, specific_date)
         self.worker.finished_signal.connect(self.display_results)
+        self.worker.date_selection_signal.connect(lambda candidates: self.handle_date_selection(candidates, geo_data))
         self.worker.class_signal.connect(self.display_classification)
         self.worker.error_signal.connect(lambda e: self.lbl_status.setText(f"Error: {e}"))
         self.worker.status_signal.connect(lambda s: self.lbl_status.setText(s))
         self.worker.start()
+
+    def handle_date_selection(self, candidates, geo_data):
+        self.lbl_status.setText("Waiting for user selection...")
+        dlg = DateSelectionDialog(candidates, self)
+        if dlg.exec_():
+            selected_date = dlg.selected_date
+            if selected_date:
+                self.lbl_status.setText(f"Selected: {selected_date}")
+                # Rerun analysis with specific date
+                self.fetch_data(geo_data, specific_date=selected_date)
+            else:
+                 self.lbl_status.setText("Selection cancelled.")
+        else:
+             self.lbl_status.setText("Selection cancelled.")
 
     def save_current_analysis(self):
         if not self.current_analysis_memory.get("indices") and not self.current_analysis_memory.get("classification"):

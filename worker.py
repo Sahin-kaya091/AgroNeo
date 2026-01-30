@@ -3,21 +3,27 @@ import ee
 from PyQt5.QtCore import QThread, pyqtSignal
 from datetime import datetime
 from utils import mask_s2_clouds
+from database import LicenseManager
 
 class AnalysisWorker(QThread):
     finished_signal = pyqtSignal(dict)
+    date_selection_signal = pyqtSignal(list)
     class_signal = pyqtSignal(dict)
     error_signal = pyqtSignal(str)
     status_signal = pyqtSignal(str)
 
-    def __init__(self, geo_data, bands, mode, date1, date2=None):
+    def __init__(self, geo_data, bands, mode, date1, date2=None, specific_date=None):
         super().__init__()
         self.geo_data = geo_data
         self.bands = bands
         self.mode = mode
         self.date1 = date1
         self.date2 = date2
+        self.specific_date = specific_date
         self.geometry = None
+
+        self.license_manager = LicenseManager()
+
         try:
             if isinstance(date1, str) and "-" in date1:
                 self.year = int(date1.split("-")[0])
@@ -29,6 +35,17 @@ class AnalysisWorker(QThread):
 
     def run(self):
         print("DEBUG: Worker Run Started...")
+
+        allowed, message = self.license_manager.check_access()
+
+        if not allowed:
+
+            # Kullanıcıya ID'sini göster ki sana söyleyebilsin, sen de yetki veresin.
+            user_id = self.license_manager.get_user_id()
+            self.error_signal.emit(f"{message}\nKullanıcı ID: {user_id}")
+            return
+
+        self.status_signal.emit(f"Lisans Onaylandı: {message}")
         try:
             if isinstance(self.geo_data, dict):
                 if 'geometry' in self.geo_data:
@@ -55,12 +72,26 @@ class AnalysisWorker(QThread):
                                     .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 30))
                                     .map(mask_s2_clouds).median())
                 elif self.mode == "single":
-                    self.status_signal.emit(f"Scanning {self.date1}...")
-                    target_image = (ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
-                                    .filterBounds(self.geometry)
-                                    .filterDate(ee_current_date.advance(-15, 'day'), ee_current_date.advance(15, 'day'))
-                                    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 50))
-                                    .map(mask_s2_clouds).median())
+                    if self.specific_date:
+                        # User selected a specific date
+                        self.status_signal.emit(f"Processing selected date: {self.specific_date}...")
+                        t_date = ee.Date(self.specific_date)
+                        # Create a small window around the specific date to ensure we catch it
+                        # Since it's a specific scene date, +/- 1 day is safer than exact
+                        target_image = (ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+                                        .filterBounds(self.geometry)
+                                        .filterDate(t_date, t_date.advance(1, 'day'))
+                                        .map(mask_s2_clouds).first())
+                    else:
+                        # Search for candidates
+                        self.status_signal.emit(f"Searching for best images around {self.date1}...")
+                        candidates = self.find_candidates(ee_current_date)
+                        if candidates:
+                             self.date_selection_signal.emit(candidates)
+                             return # Stop here, wait for user selection
+                        else:
+                             self.error_signal.emit("No suitable images found.")
+                             return
             except Exception as e:
                 self.error_signal.emit(f"Image error: {e}")
                 return
@@ -131,6 +162,7 @@ class AnalysisWorker(QThread):
                 used_source = "S1"
 
             if stats:
+                self.license_manager.decrement_credit()
                 self.finished_signal.emit(stats)
             else:
                 self.error_signal.emit("No data received.")
@@ -166,6 +198,50 @@ class AnalysisWorker(QThread):
         except:
             return None
 
+    def find_candidates(self, center_date):
+        """Finds best image before and after the center date."""
+        try:
+            candidates = []
+            
+            # 1. Search BEFORE
+            before_col = (ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+                          .filterBounds(self.geometry)
+                          .filterDate(center_date.advance(-60, 'day'), center_date)
+                          .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 40))
+                          .sort('system:time_start', False)) # Closest to date first
+            
+            # Take the closest valid image
+            best_before = before_col.first()
+            info_before = best_before.getInfo()
+            
+            if info_before:
+                dt = info_before['properties']['system:time_start'] # ms
+                date_str = datetime.fromtimestamp(dt / 1000.0).strftime('%Y-%m-%d')
+                cloud_cov = info_before['properties']['CLOUDY_PIXEL_PERCENTAGE']
+                candidates.append({'label': 'ÖNCE', 'date': date_str, 'cloud': cloud_cov})
+
+            # 2. Search AFTER
+            after_col = (ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+                          .filterBounds(self.geometry)
+                          .filterDate(center_date, center_date.advance(60, 'day'))
+                          .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 40))
+                          .sort('system:time_start', True)) # Closest to date first (ascending)
+            
+            best_after = after_col.first()
+            info_after = best_after.getInfo()
+            
+            if info_after:
+                dt = info_after['properties']['system:time_start'] # ms
+                date_str = datetime.fromtimestamp(dt / 1000.0).strftime('%Y-%m-%d')
+                cloud_cov = info_after['properties']['CLOUDY_PIXEL_PERCENTAGE']
+                candidates.append({'label': 'SONRA', 'date': date_str, 'cloud': cloud_cov})
+
+            return candidates
+
+        except Exception as e:
+            print(f"Candidate Search Error: {e}")
+            return []
+
     def perform_phenology_classification(self):
 
         try:
@@ -179,10 +255,10 @@ class AnalysisWorker(QThread):
                     ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)).map(mask_s2_clouds))
             sept_col = (
                 ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED').filterDate(f'{year}-09-01', f'{year}-09-30').filter(
-                    ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 30)).map(mask_s2_clouds))
+                    ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)).map(mask_s2_clouds))
             oct_col = (
                 ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED').filterDate(f'{year}-10-01', f'{year}-10-30').filter(
-                    ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 30)).map(mask_s2_clouds))
+                    ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)).map(mask_s2_clouds))
             transition_col = (
                 ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED').filterDate(f'{year}-06-01', f'{year}-06-20').filter(
                     ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)).map(mask_s2_clouds))
@@ -206,6 +282,7 @@ class AnalysisWorker(QThread):
 
             spring_ndvi = spring_img.normalizedDifference(['B8', 'B4'])
             summer_ndvi = summer_img.normalizedDifference(['B8', 'B4'])
+            summer_ndmi = summer_img.normalizedDifference(['B8', 'B11'])
 
 
             summer_ndbi = summer_img.normalizedDifference(['B11', 'B8'])
@@ -225,7 +302,7 @@ class AnalysisWorker(QThread):
                 s1_img_raw = ee.Image(-20).clip(self.geometry)
 
 
-            classified = ee.Image(0)
+            classified = ee.Image(6)
 
 
             is_winter_crop = spring_ndvi.gt(0.40).And(summer_ndvi.lt(0.30))
@@ -238,11 +315,14 @@ class AnalysisWorker(QThread):
 
 
             is_forest = is_perennial.And(s1_img.gt(-14.8)).And(summer_ndvi.gt(0.45))
-            is_grass = is_perennial.And(s1_img.lt(-16.6)).And(is_forest.Not())
+            is_grass = is_perennial.And(s1_img.lt(-16.3)).And(is_forest.Not())
             is_garden_shrub = is_perennial.And(is_forest.Not()).And(is_grass.Not())
 
 
-            is_corn = is_summer_crop_base.And(s1_img.gt(-14.5))
+            # is_corn = is_summer_crop_base.And(s1_img.gt(-14.5))
+            is_corn = is_summer_crop_base \
+                .And(s1_img.gt(-14.5)) \
+                .And(summer_ndmi.gt(0.15))
 
 
             is_beet_candidate = is_summer_crop_base.And(is_corn.Not()).And(is_perennial.Not())
@@ -258,26 +338,48 @@ class AnalysisWorker(QThread):
                 is_beet = is_strict_beet_candidate.And(sept_ndvi.gt(0.55))
                 is_other_summer = is_strict_beet_candidate.And(is_beet.Not())
 
-            is_sunflower = is_other_summer.And(sept_ndvi.lt(0.35))
-            is_cotton = is_other_summer.And(is_sunflower.Not())
+            # is_sunflower = is_other_summer.And(sept_ndvi.lt(0.40))
+            is_sunflower = is_other_summer \
+                .And(sept_ndvi.lt(0.45)) \
+                .And(summer_ndmi.gt(0.1))
+
+            is_cotton = is_summer_crop_base \
+                .And(is_corn.Not()) \
+                .And(is_beet.Not()) \
+                .And(is_sunflower.Not()) \
+                .And(sept_ndvi.gte(0.45)) \
+                .And(sept_ndvi.lt(0.60))
 
 
             is_water = spring_ndwi.gt(spring_ndvi).Or(spring_ndwi.gt(0.1))
 
+            bsi = summer_img.expression(
+                '((RED + SWIR) - (NIR + BLUE)) / ((RED + SWIR) + (NIR + BLUE))', {
+                    'RED': summer_img.select('B4'),
+                    'SWIR': summer_img.select('B11'),
+                    'NIR': summer_img.select('B8'),
+                    'BLUE': summer_img.select('B2')
+                }
+            )
 
 
-            is_bare_soil = spring_ndvi.gt(0.13) \
-                .And(summer_ndvi.gt(0.13)) \
-                .And(is_perennial.Not()) \
-                .And(is_summer_crop_base.Not()) \
-                .And(is_winter_crop.Not()) \
+
+
+            is_structure = spring_ndvi.lt(0.25) \
+                .And(summer_ndvi.lt(0.25)) \
+                .And(summer_ndbi.gt(-0.01)) \
                 .And(is_water.Not())
 
 
 
 
-            classified = classified.where(is_bare_soil, 6)
+
+
             classified = classified.where(is_water, 5)
+            # classified = classified.where(is_bare_soil, 6)
+            classified = classified.where(is_structure, 0)
+
+
 
 
             classified = classified.where(is_cotton, 30).where(is_sunflower, 33)
@@ -295,6 +397,8 @@ class AnalysisWorker(QThread):
             classified = classified.where(is_grass, 8)
             classified = classified.where(is_garden_shrub, 7)
             classified = classified.where(is_forest, 4)
+
+            classified = classified.focal_mode(radius=10, kernelType='circle', units='meters')
 
 
             stats = classified.reduceRegion(reducer=ee.Reducer.frequencyHistogram(), geometry=self.geometry, scale=10,

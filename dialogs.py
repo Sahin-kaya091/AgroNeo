@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QLabel, QPushButton, QListWidget, QAbstractItemView, QTextEdit,
-                             QHBoxLayout, QListWidgetItem, QGridLayout, QFrame, QTableWidget, QHeaderView, QTableWidgetItem)
+                             QHBoxLayout, QListWidgetItem, QGridLayout, QFrame, QTableWidget, QHeaderView, QTableWidgetItem, QWidget)
 from PyQt5.QtGui import QFont, QColor
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 
 # --- KAYITLARI GÖSTERME DİYALOĞU ---
 class RecordsDialog(QDialog):
@@ -292,3 +292,202 @@ class ComparisonReportDialog(QDialog):
         l.addWidget(l_stage)
         frame.setStyleSheet("background-color: white; border: 1px solid #ccc; border-radius: 8px;")
         return frame
+
+
+class DateSelectionDialog(QDialog):
+    def __init__(self, candidates, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Tarih Seçimi")
+        self.resize(450, 350)
+        self.candidates = candidates
+        self.selected_date = None
+        
+        # --- MODERN STYLING ---
+        self.setStyleSheet("""
+            QDialog {
+                background-color: #F8F9FA;
+            }
+            QLabel#TitleLabel {
+                font-size: 16px;
+                font-weight: bold;
+                color: #2E7D32;
+                margin-bottom: 10px;
+            }
+            QListWidget {
+                background-color: white;
+                border: 1px solid #E0E0E0;
+                border-radius: 10px;
+                outline: none;
+                padding: 5px;
+            }
+            QListWidget::item {
+                background-color: #FAFAFA;
+                border: 1px solid #EEEEEE;
+                border-radius: 8px;
+                margin: 5px;
+                padding: 10px;
+                color: #333;
+            }
+            QListWidget::item:hover {
+                background-color: #E8F5E9;
+                border-color: #C8E6C9;
+            }
+            QListWidget::item:selected {
+                background-color: #C8E6C9;
+                border-color: #2E7D32;
+                color: #1B5E20;
+            }
+            QPushButton#SelectButton {
+                background-color: #2E7D32; 
+                color: white; 
+                border-radius: 8px;
+                padding: 10px 20px;
+                font-weight: bold;
+                font-size: 14px;
+            }
+            QPushButton#SelectButton:hover {
+                background-color: #1B5E20;
+            }
+            QPushButton#CancelButton {
+                background-color: transparent;
+                color: #757575;
+                border: none;
+                font-size: 13px;
+            }
+            QPushButton#CancelButton:hover {
+                color: #424242;
+                background-color: #EEEEEE;
+                border-radius: 5px;
+            }
+        """)
+
+        layout = QVBoxLayout()
+        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setSpacing(15)
+        self.setLayout(layout)
+        
+        lbl = QLabel("Analiz için en uygun tarihi seçiniz:")
+        lbl.setObjectName("TitleLabel")
+        layout.addWidget(lbl)
+        
+        self.list_widget = QListWidget()
+        self.list_widget.setSelectionMode(QAbstractItemView.SingleSelection)
+        
+        for cand in candidates:
+            date_str = cand['date']
+            cloud = cand['cloud']
+            label_text = cand.get('label', 'ADAY')
+            
+            # Rich text formatting for modern look
+            display_text = f"{date_str}\n" 
+            
+            # Item setup
+            item = QListWidgetItem()
+            item.setData(Qt.UserRole, date_str)
+            item.setTextAlignment(Qt.AlignLeft)
+            
+            # Create a custom widget for this item to look nice
+            widget = QWidget()
+            w_layout = QHBoxLayout()
+            w_layout.setContentsMargins(10, 5, 10, 5)
+            widget.setLayout(w_layout)
+            
+            # Icon or Tag
+            tag_color = "#1976D2" if label_text == "ÖNCE" else "#E64A19" # Blue for Before, Orange for After
+            tag_lbl = QLabel(label_text)
+            tag_lbl.setStyleSheet(f"background-color: {tag_color}; color: white; border-radius: 4px; padding: 4px 8px; font-weight: bold; font-size: 11px;")
+            tag_lbl.setFixedWidth(60)
+            tag_lbl.setAlignment(Qt.AlignCenter)
+            
+            # Date Info
+            info_layout = QVBoxLayout()
+            date_lbl = QLabel(date_str)
+            date_lbl.setFont(QFont("Segoe UI", 11, QFont.Bold))
+            date_lbl.setStyleSheet("color: #333;")
+            
+            cloud_lbl = QLabel(f"Bulut Oranı: %{cloud:.1f}")
+            cloud_lbl.setStyleSheet("color: #666; font-size: 12px;")
+            
+            info_layout.addWidget(date_lbl)
+            info_layout.addWidget(cloud_lbl)
+            
+            w_layout.addWidget(tag_lbl)
+            w_layout.addSpacing(10)
+            w_layout.addLayout(info_layout)
+            w_layout.addStretch()
+            
+            # Add widget to item
+            item.setSizeHint(QSize(widget.sizeHint().width(), 80))
+            self.list_widget.addItem(item)
+            self.list_widget.setItemWidget(item, widget)
+            
+        layout.addWidget(self.list_widget)
+        
+        # Select first by default
+        if self.list_widget.count() > 0:
+            self.list_widget.setCurrentRow(0)
+        
+        btn_layout = QHBoxLayout()
+        btn_cancel = QPushButton("İptal")
+        btn_cancel.setObjectName("CancelButton")
+        btn_cancel.clicked.connect(self.reject)
+        
+        btn_ok = QPushButton("Seç ve Analiz Et")
+        btn_ok.setObjectName("SelectButton")
+        btn_ok.setCursor(Qt.PointingHandCursor)
+        btn_ok.clicked.connect(self.accept_selection)
+        
+        btn_layout.addStretch()
+        btn_layout.addWidget(btn_cancel)
+        btn_layout.addWidget(btn_ok)
+        
+        layout.addLayout(btn_layout)
+        
+    def accept_selection(self):
+        current_item = self.list_widget.currentItem()
+        if current_item:
+            self.selected_date = current_item.data(Qt.UserRole)
+            self.accept()
+        else:
+            # Fallback if somehow nothing selected but list not empty
+            if self.list_widget.count() > 0:
+                self.selected_date = self.list_widget.item(0).data(Qt.UserRole)
+                self.accept()
+
+
+class InfoDialog(QDialog):
+    def __init__(self, title, info_text, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle(f"About {title}")
+        self.resize(400, 300)
+        
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+        
+        lbl_title = QLabel(title)
+        lbl_title.setStyleSheet("font-size: 18px; font-weight: bold; color: #2E7D32; margin-bottom: 10px;")
+        lbl_title.setAlignment(Qt.AlignCenter)
+        layout.addWidget(lbl_title)
+        
+        txt_info = QTextEdit()
+        txt_info.setReadOnly(True)
+        txt_info.setText(info_text)
+        txt_info.setStyleSheet("font-size: 14px; color: #333; background-color: #f9f9f9; border: 1px solid #ddd; padding: 10px; border-radius: 5px;")
+        layout.addWidget(txt_info)
+        
+        btn_close = QPushButton("Close")
+        btn_close.setCursor(Qt.PointingHandCursor)
+        btn_close.clicked.connect(self.close)
+        btn_close.setStyleSheet("""
+            QPushButton {
+                background-color: #ddd;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #ccc;
+            }
+        """)
+        layout.addWidget(btn_close, alignment=Qt.AlignCenter)

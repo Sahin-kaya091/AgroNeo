@@ -19,3 +19,19 @@ if __name__ == "__main__":
     window = NeoAgroApp()
     window.showMaximized()
     sys.exit(app.exec_())
+
+def run_app():
+    """External entry point for run.py"""
+    initialize_ee()
+    
+    # Check if QApplication already exists (from Yetkilendirme)
+    app = QApplication.instance()
+    if not app:
+        app = QApplication(sys.argv)
+        
+    window = NeoAgroApp()
+    window.showMaximized()
+    
+    if app.exec_() != 0:
+        sys.exit(1)
+
