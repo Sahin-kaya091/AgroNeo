@@ -2,7 +2,7 @@ altgraph==0.17.5
 anywidget==0.9.21
 asttokens==3.0.1
 bqplot==0.12.45
-branca==0.8.2
+branca==0.7.2
 cabarchive==0.2.4
 certifi==2026.1.4
 charset-normalizer==3.4.4
@@ -17,7 +17,7 @@ earthengine-api==1.7.9
 eerepr==0.1.2
 executing==2.2.1
 filelock==3.20.3
-folium==0.20.0
+folium==0.16.0
 fonttools==4.61.1
 freeze-core==0.5.0
 future==1.0.0

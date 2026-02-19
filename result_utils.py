@@ -1,2 +1,2 @@
 # Backward compatibility shim - imports from gui package
-from gui.dialogs import *
+from gui.result_utils import *

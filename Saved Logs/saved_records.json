@@ -1,79 +1,275 @@
 {
-    "isim3": {
-        "date": "2026-01-14 02:45:42",
+    "unnamed12": {
+        "date": "2026-02-17 01:58:40",
         "indices": {
-            "NDVI": "0.59",
-            "EVI": "0.42",
-            "SAVI": "0.39",
-            "NDRE": "0.43",
-            "RENDVI": "0.35",
-            "GNDVI": "0.58",
-            "NDWI": "0.23"
-        },
-        "classification": {
-            "Anız / Sürülmüş Toprak": 2.108800338678097,
-            "Meyve Bahçesi / Çalı": 62.99148012912104,
-            "Çim / Yeşil Alan": 34.899719532200876
-        },
-        "stage": "🌱 Erken Dönem / Yavaş Gelişim",
-        "health_score": "98.7"
-    },
-    "isim4": {
-        "date": "2026-01-14 02:59:06",
-        "indices": {
-            "NDVI": "0.58",
-            "EVI": "0.44",
-            "SAVI": "0.41",
-            "NDRE": "0.39",
-            "RENDVI": "0.31",
-            "GNDVI": "0.57",
-            "NDWI": "0.14"
-        },
-        "classification": {
-            "Yol / Yapı / Taşlık": 1.4971717009696357,
-            "Yoğun Orman": 0.9718100816756149,
-            "Anız / Sürülmüş Toprak": 14.511802814140246,
-            "Meyve Bahçesi / Çalı": 23.78385121949052,
-            "Çim / Yeşil Alan": 58.78089568908405
-        },
-        "stage": "🚀 Hızlı Gelişim (Aktif)",
-        "health_score": "58.2"
-    },
-    "Alan3": {
-        "date": "2026-01-28 22:18:53",
-        "indices": {
-            "NDVI": "0.79",
-            "EVI": "0.51",
-            "SAVI": "0.48",
-            "NDRE": "0.54",
-            "RENDVI": "0.46",
-            "GNDVI": "0.71",
-            "NDWI": "0.29"
-        },
-        "classification": {
-            "Dense Forest": 36.67009168510907,
-            "Orchard / Shrub / Nursery": 63.32990831489092
-        },
-        "stage": "Maturity / Peak Period",
-        "health_score": "78.0"
-    },
-    "Alan6": {
-        "date": "2026-01-28 23:49:03",
-        "indices": {
-            "NDVI": "0.50",
+            "NDVI": "0.52",
             "EVI": "0.50",
-            "SAVI": "0.41",
-            "NDRE": "0.35",
-            "RENDVI": "0.27",
-            "GNDVI": "0.50",
-            "NDWI": "0.18"
+            "SAVI": "0.42",
+            "NDRE": "0.37",
+            "RENDVI": "0.28",
+            "GNDVI": "0.53",
+            "NDWI": "0.17",
+            "RVI": "0.79"
         },
         "classification": {
-            "Wheat (Late Grain)": 19.33848537024644,
-            "Cotton": 16.36214012360955,
-            "Grass / Green Area": 64.299374506144
+            "Wheat (Late Grain)": 28.101666656033416,
+            "Stubble / Plowed Soil": 16.540237291667996,
+            "Grass / Green Area": 55.35809605229859,
+            "legend_colors": {
+                "Road / Structure / Rocky": "#BDBDBD",
+                "Barley / Lentil (Early)": "#FFD54F",
+                "Wheat (Late Grain)": "#FF9800",
+                "Summer Crop (Undefined)": "#CDDC39",
+                "Tall Trees": "#1B5E20",
+                "Water": "#2196F3",
+                "Stubble / Plowed Soil": "#795548",
+                "Orchard / Shrub / Nursery": "#827717",
+                "Grass / Green Area": "#76FF03",
+                "Cotton": "#F48FB1",
+                "Winter Vegetables (Sugar Beet, Carrot)": "#9C27B0",
+                "Corn": "#FFEB3B",
+                "Sunflower": "#FFA726"
+            },
+            "tile_url": "https://earthengine.googleapis.com/v1/projects/937200011635/maps/d8061ca9a52e3795378b6b2cbc90e24e-a16dc99ae8d557bd7e67952ce5139348/tiles/{z}/{x}/{y}",
+            "label_mapping": {
+                "0": "Road / Structure / Rocky",
+                "1": "Barley / Lentil (Early)",
+                "2": "Wheat (Late Grain)",
+                "3": "Summer Crop (Undefined)",
+                "4": "Tall Trees",
+                "5": "Water",
+                "6": "Stubble / Plowed Soil",
+                "7": "Orchard / Shrub / Nursery",
+                "8": "Grass / Green Area",
+                "30": "Cotton",
+                "31": "Winter Vegetables (Sugar Beet, Carrot)",
+                "32": "Corn",
+                "33": "Sunflower"
+            }
         },
         "stage": "Harvest / Maturation",
-        "health_score": "69.8"
+        "health_score": "70.3",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        32.64523,
+                        37.799103
+                    ],
+                    [
+                        32.644715,
+                        37.790354
+                    ],
+                    [
+                        32.654843,
+                        37.790082
+                    ],
+                    [
+                        32.654972,
+                        37.799306
+                    ],
+                    [
+                        32.64523,
+                        37.799103
+                    ]
+                ]
+            ]
+        },
+        "view": {
+            "center": [
+                37.79018409940422,
+                32.62630462646485
+            ],
+            "zoom": 13
+        },
+        "analysis_params": {
+            "mode": "range",
+            "date1": "2023-06-01",
+            "date2": "2023-09-30",
+            "specific_date": null
+        }
+    },
+    "unnamed321": {
+        "date": "2026-02-17 02:10:18",
+        "indices": {
+            "NDVI": "0.40",
+            "EVI": "0.30",
+            "SAVI": "0.28",
+            "NDRE": "0.28",
+            "RENDVI": "0.20",
+            "GNDVI": "0.44",
+            "NDWI": "0.06",
+            "RVI": "0.49"
+        },
+        "classification": {
+            "Wheat (Late Grain)": 16.627765139799806,
+            "Winter Vegetables (Sugar Beet, Carrot)": 15.882662396411135,
+            "Stubble / Plowed Soil": 67.48957246378907,
+            "legend_colors": {
+                "Road / Structure / Rocky": "#BDBDBD",
+                "Barley / Lentil (Early)": "#FFD54F",
+                "Wheat (Late Grain)": "#FF9800",
+                "Summer Crop (Undefined)": "#CDDC39",
+                "Tall Trees": "#1B5E20",
+                "Water": "#2196F3",
+                "Stubble / Plowed Soil": "#795548",
+                "Orchard / Shrub / Nursery": "#827717",
+                "Grass / Green Area": "#76FF03",
+                "Cotton": "#F48FB1",
+                "Winter Vegetables (Sugar Beet, Carrot)": "#9C27B0",
+                "Corn": "#FFEB3B",
+                "Sunflower": "#FFA726"
+            },
+            "tile_url": "https://earthengine.googleapis.com/v1/projects/937200011635/maps/f7a4cea8c68bc1dea08201c4f72853e0-82b7493ff869d90d8bd9c2d09694506f/tiles/{z}/{x}/{y}",
+            "label_mapping": {
+                "0": "Road / Structure / Rocky",
+                "1": "Barley / Lentil (Early)",
+                "2": "Wheat (Late Grain)",
+                "3": "Summer Crop (Undefined)",
+                "4": "Tall Trees",
+                "5": "Water",
+                "6": "Stubble / Plowed Soil",
+                "7": "Orchard / Shrub / Nursery",
+                "8": "Grass / Green Area",
+                "30": "Cotton",
+                "31": "Winter Vegetables (Sugar Beet, Carrot)",
+                "32": "Corn",
+                "33": "Sunflower"
+            }
+        },
+        "stage": "Rapid Growth (Active)",
+        "health_score": "38.9",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        32.798996,
+                        37.729996
+                    ],
+                    [
+                        32.786293,
+                        37.70827
+                    ],
+                    [
+                        32.810669,
+                        37.709628
+                    ],
+                    [
+                        32.814102,
+                        37.72728
+                    ],
+                    [
+                        32.798996,
+                        37.729996
+                    ]
+                ]
+            ]
+        },
+        "view": {
+            "center": [
+                37.71051047205353,
+                32.761058807373054
+            ],
+            "zoom": 13
+        },
+        "analysis_params": {
+            "mode": "single",
+            "date1": "2023-06-01",
+            "date2": "2023-09-30",
+            "specific_date": "2023-06-07"
+        }
+    },
+    "unnamed100": {
+        "date": "2026-02-17 02:14:43",
+        "indices": {
+            "NDVI": "0.52",
+            "EVI": "0.47",
+            "SAVI": "0.41",
+            "NDRE": "0.38",
+            "RENDVI": "0.29",
+            "GNDVI": "0.54",
+            "NDWI": "0.21",
+            "RVI": "0.49"
+        },
+        "classification": {
+            "Wheat (Late Grain)": 33.73463502422415,
+            "Winter Vegetables (Sugar Beet, Carrot)": 26.162815006663326,
+            "Stubble / Plowed Soil": 40.10254996911251,
+            "legend_colors": {
+                "Road / Structure / Rocky": "#BDBDBD",
+                "Barley / Lentil (Early)": "#FFD54F",
+                "Wheat (Late Grain)": "#FF9800",
+                "Summer Crop (Undefined)": "#CDDC39",
+                "Tall Trees": "#1B5E20",
+                "Water": "#2196F3",
+                "Stubble / Plowed Soil": "#795548",
+                "Orchard / Shrub / Nursery": "#827717",
+                "Grass / Green Area": "#76FF03",
+                "Cotton": "#F48FB1",
+                "Winter Vegetables (Sugar Beet, Carrot)": "#9C27B0",
+                "Corn": "#FFEB3B",
+                "Sunflower": "#FFA726"
+            },
+            "tile_url": "https://earthengine.googleapis.com/v1/projects/937200011635/maps/154c22900036e8e50fa24bea3b95cffa-43cc83732208740959346cf6609a0811/tiles/{z}/{x}/{y}",
+            "label_mapping": {
+                "0": "Road / Structure / Rocky",
+                "1": "Barley / Lentil (Early)",
+                "2": "Wheat (Late Grain)",
+                "3": "Summer Crop (Undefined)",
+                "4": "Tall Trees",
+                "5": "Water",
+                "6": "Stubble / Plowed Soil",
+                "7": "Orchard / Shrub / Nursery",
+                "8": "Grass / Green Area",
+                "30": "Cotton",
+                "31": "Winter Vegetables (Sugar Beet, Carrot)",
+                "32": "Corn",
+                "33": "Sunflower"
+            }
+        },
+        "stage": "Rapid Growth (Active)",
+        "health_score": "57.1",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        32.735567,
+                        37.798866
+                    ],
+                    [
+                        32.73428,
+                        37.77967
+                    ],
+                    [
+                        32.754793,
+                        37.778924
+                    ],
+                    [
+                        32.755566,
+                        37.791134
+                    ],
+                    [
+                        32.735567,
+                        37.798866
+                    ]
+                ]
+            ]
+        },
+        "view": {
+            "center": [
+                37.782145977872474,
+                32.73985862731934
+            ],
+            "zoom": 14
+        },
+        "analysis_params": {
+            "mode": "range",
+            "date1": "2023-06-01",
+            "date2": "2023-09-30",
+            "specific_date": null
+        }
     }
 }

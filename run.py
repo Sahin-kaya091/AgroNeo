@@ -1,6 +1,14 @@
 import sys
 import os
 import ee
+
+# Initialize Earth Engine at the very beginning to avoid hangs in env
+try:
+    ee.Initialize()
+    EE_INITIALIZED = True
+except Exception:
+    EE_INITIALIZED = False
+
 from PyQt5.QtWidgets import QApplication, QMessageBox
 
 # Import modules directly to avoid subprocess issues in frozen exe
@@ -19,6 +27,11 @@ def check_auth():
     """
     Google Earth Engine yetkilendirmesi olup olmadığını kontrol eder.
     """
+    # If already initialized successfully at top level
+    if EE_INITIALIZED:
+        return True
+    
+    # Try initializing again if it failed previously
     try:
         ee.Initialize()
         return True
@@ -34,14 +47,6 @@ def start():
     else:
         print("Earth Engine yetkilendirmesi bulunamadı.")
         print("Yetkilendirme sihirbazı başlatılıyor...")
-        
-        # Run Auth GUI
-        # Yetkilendirme.authenticate_with_gui returns True/False based on our previous logic (if we updated it, check below)
-        # Note: In Step 58, Yetkilendirme.py was NOT updated yet to return True/False reliably in all blocks, 
-        # but the code I read had a "Modified" comment. 
-        # Wait, the read tool showed: 
-        # def authenticate_with_gui(): ... return True ... return False
-        # So it DOES return boolean.
         
         success = Yetkilendirme.authenticate_with_gui()
         if not success:

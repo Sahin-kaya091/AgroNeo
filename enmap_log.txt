@@ -1,0 +1,86 @@
+Landing: 200
+Collection: SWIM_WE - Surface Water Inventory and Monitoring (SWIM) Water Extent
+Collection: S5P_TROPOMI_L3_P1D_CF - S5P Tropomi L3 P1D CF v1
+Collection: S5P_TROPOMI_L3_P1D_COT - S5P Tropomi L3 P1D COT v1
+Collection: S5P_TROPOMI_L3_P1D_CTH - S5P Tropomi L3 P1D CTH v1
+Collection: S5P_TROPOMI_L3_P1D_HCHO - S5P Tropomi L3 P1D HCHO v1
+Collection: S5P_TROPOMI_L3_P1D_O3 - S5P Tropomi L3 P1D O3 v1
+Collection: S5P_TROPOMI_L3_P1D_SO2 - S5P Tropomi L3 P1D SO2 v1
+Collection: S5P_TROPOMI_L4_P1D_NO2surf - S5P Tropomi L4 P1D NO2surf
+Collection: ENMAP_HSI_L0_QL - EnMAP L0 HSI Quicklook Products
+Collection: ENMAP_HSI_L2A - EnMAP L2A HSI Products
+Collection: DatKI_LBMDE_2021 - DatKI4BKG - LBMDE 2021
+Collection: D4H - Sentinel-1 Floodmasks (Data4Human)
+Collection: S2_L2A_MAJA - Sentinel-2 L2A MAJA Products
+Collection: S2_L2A_MAJA_v2 - Sentinel-2 L2A MAJA Products v2
+Collection: S2_L3A_WASP - Sentinel-2 L3A Monthly WASP Products
+Collection: DESIS_HSI_L2A - DESIS L2A HSI Products
+Collection: WSF_2015 - World Settlement Footprint (WSF) 2015 v2
+Collection: WSF_2019 - World Settlement Footprint (WSF) 2019
+Collection: S5P_TROPOMI_L3_P1D_AI_v2 - S5P Tropomi L3 P1D AI v2
+Collection: S5P_TROPOMI_L3_P1D_ALH_v2 - S5P Tropomi L3 P1D ALH v2
+Collection: S5P_TROPOMI_L3_P1D_AOD_v2 - S5P Tropomi L3 P1D AOD v2
+Collection: S5P_TROPOMI_L3_P1D_ASSA_v2 - S5P Tropomi L3 P1D ASSA v2
+Collection: S5P_TROPOMI_L3_P1D_CF_v2 - S5P Tropomi L3 P1D CF v2
+Collection: S5P_TROPOMI_L3_P1D_COT_v2 - S5P Tropomi L3 P1D COT v2
+Collection: S5P_TROPOMI_L3_P1D_CTH_v2 - S5P Tropomi L3 P1D CTH v2
+Collection: S5P_TROPOMI_L3_P1D_HCHO_v2 - S5P Tropomi L3 P1D HCHO v2
+Collection: S5P_TROPOMI_L3_P1D_O3_v2 - S5P Tropomi L3 P1D O3 v2
+Collection: S5P_TROPOMI_L3_P1D_SO2LH_v2 - S5P Tropomi L3 P1D SO2LH v2
+Collection: S5P_TROPOMI_L3_P1D_SO2_v2 - S5P Tropomi L3 P1D SO2 v2
+Collection: S5P_TROPOMI_L3_P1D_UVI_v2 - S5P Tropomi L3 P1D UVI v2
+Collection: S2-soilsuite-africa-2018-2021-P4Y - SoilSuite – Sentinel-2 – Africa, 4 year composite
+Collection: S2-soilsuite-europe-2018-2022-P5Y - SoilSuite – Sentinel-2 – Europe, 5 year composite
+Collection: GL_MOW_DE_P1Y_FC - GrassLands - First Cut - Yearly, 10m
+Collection: GL_MOW_DE_P1Y_FREQ - GrassLands - Mowing Frequency - Yearly, 10m
+Collection: URBAN_DEGREE_DE - Degree of Urbanization - Germany
+Collection: FCCL_DE_P1M - Forest Canopy Cover Loss - Germany - Monthly, 10m
+Collection: CROPTYPES_DE_P1Y - CropTypes - Crop Type Maps for Germany - Yearly, 10m
+Collection: FOREST_STRUCTURE_DE_AGBD_P1Y - Forest Structure Germany - Above-Ground Biomass Density - Yearly
+Collection: FOREST_STRUCTURE_DE_COVER_P1Y - Forest Structure Germany - Canopy Cover - Yearly
+Collection: FOREST_STRUCTURE_DE_RH95_P1Y - Forest Structure Germany - Canopy Height - Yearly
+Collection: N2N_NOISE_AI_DE_2017 - Noise - Road Traffic Lden (AI Prediction) - Germany, 2017
+Collection: N2N_NOISE_DE_2017 - Noise - Road Traffic Lden (2002/49/EC) - Germany, 2017
+Collection: SAR4TEC_ASCE - SAR4Tectonics (S4T) - Eurasia (Ascending)
+Collection: SAR4TEC_DESC - SAR4Tectonics (S4T) - Eurasia (Descending)
+Collection: WSF3D_MATSTOCK - World Settlement Footprint (WSF) 3D - Material Stock
+Collection: TDM_FNF_50 - TanDEM-X Forest/Non-Forest Map - Global
+Collection: TDM_DEM_90 - TanDEM-X - Digital Elevation Model (DEM) - Global, 90m
+Collection: SUPERSITES - TerraSAR-X Geohazard Supersites Products
+Collection: METOP_GOME2_L3_P1D_BRO - MetOp-A/B/C GOME-2 L3 P1D Bromine Monoxide (BrO)
+Collection: METOP_GOME2_L3_P1D_CF - MetOp-A/B/C GOME-2 L3 P1D Cloud Fraction (CF)
+Collection: METOP_GOME2_L3_P1D_H2O - MetOp-A/B/C GOME-2 L3 P1D Water Vapor (H2O)
+Collection: METOP_GOME2_L3_P1D_HCHO - MetOp-A/B/C GOME-2 L3 P1D Formaldehyde (HCHO)
+Collection: METOP_GOME2_L3_P1D_NO2 - MetOp-A/B/C GOME-2 L3 P1D Nitrogen Dioxide (NO2)
+Collection: METOP_GOME2_L3_P1D_NO2TROPO - MetOp-A/B/C GOME-2 L3 P1D Tropspheric Nitrogen Dioxide (NO2Tropo)
+Collection: METOP_GOME2_L3_P1D_O3 - MetOp-A/B/C GOME-2 L3 P1D Ozone (O3)
+Collection: METOP_GOME2_L3_P1D_SO2 - MetOp-A/B/C GOME-2 L3 P1D Sulphur Dioxid (SO2)
+Collection: GWP_P1D - Global WaterPack - MODIS - Daily
+Collection: GWP_P1M - Global WaterPack - MODIS - Monthly
+Collection: GWP_P1Y - Global WaterPack - MODIS - Yearly
+Collection: EO4CAM_URBANISIERUNGSGRAD - EO4CAM Urbanisierungsgrad
+Collection: GSP_SCDE_MEAN - Global SnowPack - The arithmetic mean of the Snow Cover Duration Early Season (SCDEmean)
+Collection: GSP_SCDE_P1Y - Global SnowPack - Snow Cover Duration Early Season (SCDE)
+Collection: GSP_SCDL_MEAN - Global SnowPack - The arithmetic mean of the Snow Cover Duration Late Season (SCDLmean)
+Collection: GSP_SCDL_P1Y - Global SnowPack - Snow Cover Duration Late Season (SCDL)
+Collection: GSP_SCD_MEAN - Global SnowPack - The arithmetic mean of the Snow Cover Duration (SCDmean)
+Collection: GSP_SCD_P1Y - Global SnowPack - Snow Cover Duration (SCD) - Yearly
+Collection: GSP_SCE_P1D - Global SnowPack - Snow Cover Extent (SCE) - Daily
+Collection: WSF_Evolution - World Settlement Footprint (WSF) Evolution
+Collection: TIMELINE_AVHRR_P1M_LSTD - TIMELINE AVHRR L3 Monthly LSTD
+Found EnMap Collection: ENMAP_HSI_L2A
+Found Item: ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z
+Assets:
+  metadata: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-METADATA.XML (application/xml)
+  image: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-SPECTRAL_IMAGE_COG.TIF (image/tiff; application=geotiff; profile=cloud-optimized)
+  vnir: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-QL_VNIR_COG.TIF (image/tiff; application=geotiff; profile=cloud-optimized)
+  thumbnail: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-QL_VNIR_COG_thumbnail.jpg (image/jpeg)
+  swir: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-QL_SWIR_COG.TIF (image/tiff; application=geotiff; profile=cloud-optimized)
+  quality_classes: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-QL_QUALITY_CLASSES_COG.TIF (image/tiff; application=geotiff; profile=cloud-optimized)
+  quality_cloud: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-QL_QUALITY_CLOUD_COG.TIF (image/tiff; application=geotiff; profile=cloud-optimized)
+  quality_cloud_shadow: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-QL_QUALITY_CLOUDSHADOW_COG.TIF (image/tiff; application=geotiff; profile=cloud-optimized)
+  quality_haze: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-QL_QUALITY_HAZE_COG.TIF (image/tiff; application=geotiff; profile=cloud-optimized)
+  quality_cirrus: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-QL_QUALITY_CIRRUS_COG.TIF (image/tiff; application=geotiff; profile=cloud-optimized)
+  quality_snow: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-QL_QUALITY_SNOW_COG.TIF (image/tiff; application=geotiff; profile=cloud-optimized)
+  quality_testflags: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-QL_QUALITY_TESTFLAGS_COG.TIF (image/tiff; application=geotiff; profile=cloud-optimized)
+  defective_pixel_mask: https://download.geoservice.dlr.de/ENMAP/files/L2A/2026/02/12/DT0000179692/03/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z/ENMAP01-____L2A-DT0000179692_20260212T141051Z_003_V010506_20260213T182801Z-QL_PIXELMASK_COG.TIF (image/tiff; application=geotiff; profile=cloud-optimized)
